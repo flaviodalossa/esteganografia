@@ -1,0 +1,31 @@
+// index.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Desafio de Esteganografia</title>
+</head>
+<body>
+  <p id="challenge">
+    Você precisa me decifrar, me copie e me cole onde eu te mandar.
+    <span id="hidden" style="font-size:0;"></span>
+  </p>
+  <p>Copie o texto acima e cole na página de decodificação.</p>
+  <p><a href="decode.html">Ir para Decodificador</a></p>
+
+  <script>
+    (function(){
+      // Mensagem secreta em nome da turma:
+      const secret = "Querida professora, agradecemos pelos ótimos momentos de aprendizado. Sentiremos saudades!";
+      const base = 0xE000;
+      let hidden = "";
+      for(let i = 0; i < secret.length; i++){
+        hidden += String.fromCharCode(base + secret.charCodeAt(i));
+      }
+      document.getElementById("hidden").textContent = hidden;
+    })();
+  </script>
+</body>
+</html>
+
+
