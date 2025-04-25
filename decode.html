@@ -1,31 +1,41 @@
-// decode.html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Decodificador de Esteganografia</title>
+  <style>
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      font-family: monospace;
+    }
+    button {
+      margin-top: 0.5em;
+      padding: 0.5em 1em;
+      font-size: 1em;
+    }
+    #output {
+      white-space: pre-wrap;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <h1>Decodificação da Mensagem Secreta</h1>
-  <textarea id="input" rows="4" cols="60" placeholder="Cole aqui o texto copiado..."></textarea><br>
+  <textarea id="input" rows="4" placeholder="Cole aqui o texto copiado..."></textarea><br>
   <button id="decodeBtn">Decodificar</button>
   <h2>Mensagem Revelada:</h2>
-  <p id="output" style="white-space: pre-wrap;"></p>
+  <p id="output"></p>
 
   <script>
-    document.getElementById("decodeBtn").addEventListener("click", function(){
+    document.getElementById("decodeBtn").addEventListener("click", function() {
       const text = document.getElementById("input").value;
-      const base = 0xE000;
-      let secret = "";
-      for(let i = 0; i < text.length; i++){
-        const code = text.charCodeAt(i);
-        // caracteres PUA mapeados
-        if(code >= base && code < base + 256){
-          secret += String.fromCharCode(code - base);
-        }
-      }
+      const matches = text.match(/[\uE000-\uF8FF]/g) || [];
+      const secret = matches.map(ch => String.fromCharCode(ch.charCodeAt(0) - 0xE000)).join("");
       document.getElementById("output").textContent = secret;
     });
   </script>
 </body>
 </html>
+
