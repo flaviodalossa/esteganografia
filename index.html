@@ -1,31 +1,49 @@
-// index.html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Desafio de Esteganografia</title>
+  <style>
+    #hidden {
+      color: transparent;
+      user-select: all;
+    }
+    button {
+      margin-top: 1em;
+      padding: 0.5em 1em;
+      font-size: 1em;
+    }
+  </style>
 </head>
 <body>
   <p id="challenge">
-    Você precisa me decifrar, me copie e me cole onde eu te mandar.
-    <span id="hidden" style="font-size:0;"></span>
+    Você precisa me decifrar, me copie e me cole onde eu te mandar<span id="hidden"></span>.
   </p>
-  <p>Copie o texto acima e cole na página de decodificação.</p>
-  <p><a href="decode.html">Ir para Decodificador</a></p>
+  <button id="copyBtn">Copiar Desafio</button>
+  <p>Ou <a href="decode.html">vá para o Decodificador</a> para ver a resposta.</p>
 
   <script>
+    // Gera a mensagem secreta como caracteres da PUA
     (function(){
-      // Mensagem secreta em nome da turma:
       const secret = "Querida professora, agradecemos pelos ótimos momentos de aprendizado. Sentiremos saudades!";
       const base = 0xE000;
       let hidden = "";
-      for(let i = 0; i < secret.length; i++){
+      for (let i = 0; i < secret.length; i++) {
         hidden += String.fromCharCode(base + secret.charCodeAt(i));
       }
       document.getElementById("hidden").textContent = hidden;
     })();
+
+    // Botão para copiar o desafio completo
+    document.getElementById("copyBtn").addEventListener("click", function() {
+      const text = document.getElementById("challenge").textContent;
+      navigator.clipboard.writeText(text)
+        .then(() => alert("Texto copiado para a área de transferência!"))
+        .catch(err => alert("Falha ao copiar: " + err));
+    });
   </script>
 </body>
 </html>
+
 
 
